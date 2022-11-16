@@ -1,0 +1,14 @@
+{
+  "name": "giuliano",
+  "version": "1.0.0",
+  "description": "Project Giuliano, codename for a Cool Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "gesucca",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
