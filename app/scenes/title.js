@@ -1,17 +1,17 @@
 class Title extends Phaser.Scene {
 
-    mainMenuButtons = [];
-    selectedMainMenuButtonIndex = 0;
-    subMenuButtons = [];
-    selectedSubMenuButtonIndex = 0;
-    isSubMenuActive = false;
-
     constructor() {
         super('Title');
     }
 
     init() {
+        console.log('scene title')
         this.cursors = this.input.keyboard.createCursorKeys()
+        this.mainMenuButtons = [];
+        this.selectedMainMenuButtonIndex = 0;
+        this.subMenuButtons = [];
+        this.selectedSubMenuButtonIndex = 0;
+        this.isSubMenuActive = false;
     }
 
     preload() {
@@ -84,6 +84,11 @@ class Title extends Phaser.Scene {
         this.subMenuButtons.push(pvcomBtn)
         this.subMenuButtons.push(pvpBtn)
         this.subMenuButtons.push(backBtn)
+
+        pvcomBtn.on('selected', () => {
+            this.scene.des
+            this.scene.start('Fight')
+        })
 
         backBtn.on('selected', () => {
             this._destroySubMenu()
