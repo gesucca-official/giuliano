@@ -11,6 +11,7 @@ class Fight extends Phaser.Scene {
     preload() {
         this.load.image('bkg', 'assets/hyperspace_bkg.jpg');
         this.load.image('ground', 'assets/hyperspace_ground.png');
+        this.load.image('warp', 'assets/hyperspace_warp.png');
     }
 
     create(data) {
@@ -33,9 +34,39 @@ class Fight extends Phaser.Scene {
 
     _createGround() {
         this.platforms = this.physics.add.staticGroup();
+        this.warps = {
+            w1:
+                {g: null, h: null},
+            w2:
+                {g: null, h: null},
+            w3:
+                {g: null, h: null}
+        };
         let y = this.textures.get('bkg').getSourceImage().height - this.textures.get('ground').getSourceImage().height
         let w = this.textures.get('ground').getSourceImage().width;
-        for (let x = 0; x < this.textures.get('bkg').getSourceImage().width; x += w) {
+        let ww = this.textures.get('warp').getSourceImage().width * 0.75;
+        let bw = this.textures.get('bkg').getSourceImage().width;
+
+        let lastX = 0
+        for (let x = -120; x < bw / 6; x += w) {
+            this.platforms.create(x, y, 'ground').setOrigin(0, 0);
+            lastX = x;
+        }
+        lastX += w;
+        this.warps.w1.g = this.add.image(lastX, y - 10, 'warp').setOrigin(0, 0).setScale(0.75);
+        for (let x = lastX + ww; x < bw / 2; x += w) {
+            this.platforms.create(x, y, 'ground').setOrigin(0, 0);
+            lastX = x;
+        }
+        lastX += w;
+        this.warps.w2.g = this.add.image(lastX, y - 10, 'warp').setOrigin(0, 0).setScale(0.75);
+        for (let x = lastX + ww; x < bw / 1.5; x += w) {
+            this.platforms.create(x, y, 'ground').setOrigin(0, 0);
+            lastX = x;
+        }
+        lastX += w;
+        this.warps.w3.g = this.add.image(lastX, y - 10, 'warp').setOrigin(0, 0).setScale(0.75);
+        for (let x = lastX + ww; x < bw; x += w) {
             this.platforms.create(x, y, 'ground').setOrigin(0, 0);
         }
     }
@@ -46,6 +77,7 @@ class Fight extends Phaser.Scene {
         this.movingPlatform.body.allowGravity = false;
         this.movingPlatform.setVelocityX(50);
     }
+
 }
 
 export default Fight;
