@@ -1,5 +1,16 @@
 class Fight extends Phaser.Scene {
 
+    platforms;
+    movingPlatform;
+    warps = {
+        w1:
+            {g: null, h: null},
+        w2:
+            {g: null, h: null},
+        w3:
+            {g: null, h: null}
+    };
+
     constructor() {
         super('Fight');
     }
@@ -25,23 +36,18 @@ class Fight extends Phaser.Scene {
         if (escape.isDown)
             this.scene.start('Title')
 
-        if (this.movingPlatform.x >= 500) {
-            this.movingPlatform.setVelocityX(-50);
-        } else if (this.movingPlatform.x <= 300) {
-            this.movingPlatform.setVelocityX(50);
+        const movingPlatformMaxX = this.textures.get('bkg').getSourceImage().width
+            - this.textures.get('ground').getSourceImage().width * 0.75
+            - 20;
+        if (this.movingPlatform.x >= movingPlatformMaxX) {
+            this.movingPlatform.setVelocityX(-120);
+        } else if (this.movingPlatform.x <= 20) {
+            this.movingPlatform.setVelocityX(120);
         }
     }
 
     _createGround() {
         this.platforms = this.physics.add.staticGroup();
-        this.warps = {
-            w1:
-                {g: null, h: null},
-            w2:
-                {g: null, h: null},
-            w3:
-                {g: null, h: null}
-        };
         let y = this.textures.get('bkg').getSourceImage().height - this.textures.get('ground').getSourceImage().height
         let w = this.textures.get('ground').getSourceImage().width;
         let ww = this.textures.get('warp').getSourceImage().width * 0.75;
@@ -72,10 +78,9 @@ class Fight extends Phaser.Scene {
     }
 
     _createMovingPlatform() {
-        this.movingPlatform = this.physics.add.image(400, 400, 'ground');
+        this.movingPlatform = this.physics.add.image(20, 10, 'ground').setOrigin(0, 0).setScale(0.75, 0.5)
         this.movingPlatform.setImmovable(true);
         this.movingPlatform.body.allowGravity = false;
-        this.movingPlatform.setVelocityX(50);
     }
 
 }
